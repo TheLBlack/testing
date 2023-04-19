@@ -1,14 +1,17 @@
 package project.t3;
 
+import project.t2.Product;
 import project.t2.ShoppingCart;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class CashRegister {
 
-    private double totalEarned;
-    private List<ShoppingCart> carts = new LinkedList<>();
+    private double totalEarned = 0;
+    protected List<ShoppingCart> carts = new LinkedList<>();
 
     public void addToCartsQueue(ShoppingCart cart) {
         this.carts.add(cart);
@@ -25,7 +28,12 @@ public class CashRegister {
 
             this.totalEarned += price;
 
-            return null; // return Receipt
+            Map<String, Double> products = new HashMap<>();
+            for (Product product : next.getProductsInCart()) {
+                products.put(product.getName(), product.getPrice());
+            }
+
+            return new Receipt(products, price);
         }
 
         return null;
